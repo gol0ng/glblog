@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}莫小荒的博客{% endblock %}</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="{{ url_for('index') }}">莫小荒的博客</a></h1>
+            <nav>
+                <a href="{{ url_for('index') }}">主页</a>
+                <a href="{{ url_for('about') }}">关于</a>
+                {% if session.logged_in %}
+                    {% if session.is_admin %}
+                        <a href="{{ url_for('create') }}"><strong>+ 新文章</strong></a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}">登出</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">登录</a>
+                    <a href="{{ url_for('register') }}">注册</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div> <!-- 关闭container div -->
+
+    <footer>
+        <p>&copy; 2025 我的博客. All rights reserved.</p>
+    </footer>
+</body>
+</html>

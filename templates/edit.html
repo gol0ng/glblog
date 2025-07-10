@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{% if post %}编辑文章{% else %}创建新文章{% endif %} - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h2 class="page-title">{% if post %}编辑文章{% else %}创建新文章{% endif %}</h2>
+    
+    <form method="post" class="form-card">
+        <div class="form-group">
+            <label for="title">标题</label>
+            <input type="text" id="title" name="title" value="{{ post.title if post else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="content">内容</label>
+            <textarea id="content" name="content" rows="15" required>{{ post.content if post else '' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="tags">标签 (用逗号分隔)</label>
+            <input type="text" id="tags" name="tags" value="{{ post.tags if post else '' }}">
+        </div>
+        <button type="submit" class="submit-btn">{% if post %}更新文章{% else %}发布文章{% endif %}</button>
+    </form>
+{% endblock %}

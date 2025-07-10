@@ -1,0 +1,262 @@
+/* static/style.css */
+
+/* 全局样式和字体设置 */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* 确保body至少占满整个视口高度 */
+    display: flex;
+    flex-direction: column; /* 使用flex布局使footer保持在底部 */
+}
+
+/* 主内容容器 */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex: 1; /* 允许容器填充剩余空间 */
+    width: 100%; /* 确保容器宽度填满 */
+}
+
+/* 页头和导航 */
+header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: #212529;
+}
+
+nav a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #495057;
+    font-size: 1.1em;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #007bff;
+}
+
+/* 页面主标题 */
+.page-title {
+    color: #343a40;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* 文章列表 */
+.post-list {
+    list-style: none;
+    padding: 0;
+}
+
+.post-item {
+    margin-bottom: 25px;
+    border-bottom: 1px dashed #e9ecef;
+    padding-bottom: 15px;
+}
+
+.post-item:last-child {
+    border-bottom: none;
+}
+
+.post-item h3 {
+    margin: 0 0 5px 0;
+}
+
+.post-item h3 a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1.4em;
+    transition: color 0.2s;
+}
+
+.post-item h3 a:hover {
+    color: #0056b3;
+}
+
+/* 文章元数据（作者、日期） */
+.post-meta {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+/* 文章详情页 */
+.post-detail h2 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+}
+
+.post-content {
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+
+.post-content p {
+    margin-bottom: 1.2em; /* 段落间距 */
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1.1em;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* 页脚 */
+footer {
+    text-align: center;
+    margin-top: auto; /* 关键：使页脚自动填充底部空间 */
+    padding: 20px 0;
+    border-top: 1px solid #dee2e6;
+    color: #6c757d;
+    font-size: 0.9em;
+    width: 100%;
+}
+
+/* static/style.css */
+
+/* ... (保留之前的全局、页头、页脚、文章列表等样式) ... */
+
+/* 新增：标签样式 */
+.tags {
+    display: inline-block;
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+
+/* 新增：管理操作按钮 */
+.admin-actions {
+    margin-top: 10px;
+}
+.edit-btn, .delete-btn {
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: none;
+    cursor: pointer;
+}
+.edit-btn {
+    background-color: #28a745;
+    color: white;
+}
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* 新增：消息闪现样式 */
+.flash-messages {
+    margin-bottom: 20px;
+}
+.flash {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.flash.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.flash.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* 新增：表单样式 */
+.form-card {
+    background: #fdfdfd;
+    padding: 25px;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
+}
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box; /* 确保 padding 不会撑大宽度 */
+}
+.submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* 注册和登录表单样式 */
+.auth-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-footer {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.form-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
