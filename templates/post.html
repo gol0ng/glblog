@@ -8,7 +8,11 @@
         <div class="post-meta">
             <span>作者：{{ post.author }} | 日期：{{ post.created_date.strftime('%Y-%m-%d') }}</span>
             {% if post.tags %}
-            <span class="tags">标签: {{ post.tags }}</span>
+            <span class="tags">标签:
+                {% for tag in post.tags.split(', ') %}
+                    <a href="{{ url_for('tag', tag_name=tag) }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </span>
             {% endif %}
         </div>
 

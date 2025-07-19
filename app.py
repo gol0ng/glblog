@@ -406,6 +406,59 @@ def process_tags(post_id, tags_str, db):
         )
 
 
+# 在 app.py 中添加以下路由
+
+@app.route('/search')
+def search():
+    query = request.args.get('q', '').strip()
+    db = get_db()
+
+    if query:
+        search_query = """
+                       SELECT p.id, \
+                              p.title, \
+                              u.username                 as author, \
+                              p.created_date,
+                              GROUP_CONCAT(t.name, ', ') as tags
+                       FROM posts p
+                                JOIN users u ON p.author_id = u.id
+                                LEFT JOIN post_tags pt ON p.id = pt.post_id
+                                LEFT JOIN tags t ON pt.tag_id = t.id
+                       WHERE p.title LIKE ? \
+                          OR p.content LIKE ?
+                       GROUP BY p.id
+                       ORDER BY p.created_date DESC; \
+                       """
+        search_term = f"%{query}%"
+        posts = db.execute(search_query, (search_term, search_term)).fetchall()
+    else:
+        posts = []
+
+    return render_template('search.html', posts=posts, query=query)
+
+
+@app.route('/tag/<string:tag_name>')
+def tag(tag_name):
+    db = get_db()
+
+    tag_query = """
+                SELECT p.id, \
+                       p.title, \
+                       u.username                 as author, \
+                       p.created_date,
+                       GROUP_CONCAT(t.name, ', ') as tags
+                FROM posts p
+                         JOIN users u ON p.author_id = u.id
+                         JOIN post_tags pt ON p.id = pt.post_id
+                         JOIN tags t ON pt.tag_id = t.id
+                WHERE t.name = ?
+                GROUP BY p.id
+                ORDER BY p.created_date DESC; \
+                """
+    posts = db.execute(tag_query, (tag_name,)).fetchall()
+
+    return render_template('tag.html', posts=posts, tag_name=tag_name)
+
 @app.errorhandler(403)
 def forbidden(error):
     return render_template('403.html'), 403

@@ -260,3 +260,45 @@ footer {
 .form-footer a:hover {
     text-decoration: underline;
 }
+
+/* 搜索表单样式 */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 5px;
+}
+
+.search-form input {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    min-width: 200px;
+}
+
+.search-form button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+/* 标签链接样式 */
+.post-meta .tags a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.post-meta .tags a:hover {
+    text-decoration: underline;
+}

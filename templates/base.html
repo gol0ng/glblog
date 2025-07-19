@@ -9,20 +9,26 @@
 <body>
     <div class="container">
         <header>
-            <h1><a href="{{ url_for('index') }}">莫小荒的博客</a></h1>
-            <nav>
-                <a href="{{ url_for('index') }}">主页</a>
-                <a href="{{ url_for('about') }}">关于</a>
-                {% if session.logged_in %}
-                    {% if session.is_admin %}
-                        <a href="{{ url_for('create') }}"><strong>+ 新文章</strong></a>
+            <h1><a href="{{ url_for('index') }}">我的简洁博客</a></h1>
+            <div class="header-right">
+                <nav>
+                    <a href="{{ url_for('index') }}">主页</a>
+                    <a href="{{ url_for('about') }}">关于</a>
+                    {% if session.logged_in %}
+                        {% if session.is_admin %}
+                            <a href="{{ url_for('create') }}"><strong>+ 新文章</strong></a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}">登出</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}">登录</a>
+                        <a href="{{ url_for('register') }}">注册</a>
                     {% endif %}
-                    <a href="{{ url_for('logout') }}">登出</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}">登录</a>
-                    <a href="{{ url_for('register') }}">注册</a>
-                {% endif %}
-            </nav>
+                </nav>
+                <form class="search-form" action="{{ url_for('search') }}" method="get">
+                    <input type="text" name="q" placeholder="搜索文章..." value="{{ request.args.get('q', '') }}">
+                    <button type="submit">搜索</button>
+                </form>
+            </div>
         </header>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
