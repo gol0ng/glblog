@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, url_for, flash, redirect, ses
 import os
 import markdown
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 # --- App 配置 ---
 app = Flask(__name__)
@@ -234,8 +235,12 @@ def post(post_id):
     if post is None:
         abort(404)
 
-    # 将Markdown内容转换为HTML
-    post_content = markdown.markdown(post['content'])
+    md = markdown.Markdown(extensions=[
+        'fenced_code',
+        'tables',
+        'codehilite'
+    ])
+    post_content = md.convert(post['content'])
     return render_template('post.html', post=post, post_content=post_content)
 
 
@@ -463,6 +468,40 @@ def tag(tag_name):
 def forbidden(error):
     return render_template('403.html'), 403
 
+
+# 配置上传文件夹和允许的扩展名
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB限制
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    if not session.get('logged_in') or not is_admin():
+        abort(403)
+
+    if 'file' not in request.files:
+        flash('没有选择文件', 'error')
+        return redirect(request.referrer)
+
+    file = request.files['file']
+    if file.filename == '':
+        flash('没有选择文件', 'error')
+        return redirect(request.referrer)
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return {'location': url_for('static', filename=f'uploads/{filename}')}
+
+    flash('不允许的文件类型', 'error')
+    return redirect(request.referrer)
 
 if __name__ == '__main__':
     app.run(debug=False,host='0.0.0.0')

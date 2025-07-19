@@ -302,3 +302,54 @@ footer {
 .post-meta .tags a:hover {
     text-decoration: underline;
 }
+
+/* 图片容器样式 */
+.post-content {
+    overflow: hidden; /* 防止内容溢出 */
+    word-wrap: break-word; /* 长单词或URL换行 */
+}
+
+/* 图片基础样式 */
+.post-content img {
+    max-width: 100%; /* 最大宽度不超过容器 */
+    height: auto; /* 高度自动调整保持比例 */
+    display: block; /* 避免行内元素的空隙 */
+    margin: 1.5em auto; /* 上下间距 */
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-sizing: border-box; /* 包含padding和border在宽度内 */
+}
+
+/* 超大图片的特殊处理 */
+.post-content img.large-image {
+    max-height: 70vh; /* 视口高度的70% */
+    object-fit: contain; /* 保持比例完整显示 */
+    cursor: zoom-in; /* 提示可放大 */
+}
+
+/* 图片点击放大效果 */
+.post-content img.zoomed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    z-index: 1000;
+    cursor: zoom-out;
+    background: rgba(0,0,0,0.9);
+    object-fit: contain;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .post-content img {
+        margin: 1em auto;
+    }
+
+    .post-content img.large-image {
+        max-height: 60vh;
+    }
+}

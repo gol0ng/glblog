@@ -13,6 +13,8 @@
         <div class="form-group">
             <label for="content">内容</label>
             <textarea id="content" name="content" rows="15" required>{{ post.content if post else '' }}</textarea>
+            <button type="button" class="image-upload-btn" onclick="document.getElementById('file-input').click()">插入图片</button>
+            <input type="file" id="file-input" style="display:none" accept="image/*">
         </div>
         <div class="form-group">
             <label for="tags">标签 (用逗号分隔)</label>
@@ -20,4 +22,34 @@
         </div>
         <button type="submit" class="submit-btn">{% if post %}更新文章{% else %}发布文章{% endif %}</button>
     </form>
+    <script src="../static/jquery.min.js"></script>
+    <script>
+    // 图片上传处理
+    $('#file-input').change(function() {
+        var file = this.files[0];
+        var formData = new FormData();
+        formData.append('file', file);
+
+        $.ajax({
+            url: '/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                var markdownImage = `![图片描述](${data.location})`;
+                var textarea = document.getElementById('content');
+                var startPos = textarea.selectionStart;
+                var endPos = textarea.selectionEnd;
+                textarea.value = textarea.value.substring(0, startPos) + markdownImage +
+                                textarea.value.substring(endPos);
+                textarea.focus();
+                textarea.selectionStart = textarea.selectionEnd = startPos + markdownImage.length;
+            },
+            error: function(xhr) {
+                alert('图片上传失败: ' + (xhr.responseJSON && xhr.responseJSON.error || '未知错误'));
+            }
+        });
+    });
+    </script>
 {% endblock %}

@@ -31,4 +31,25 @@
 
         <a href="{{ url_for('index') }}" class="back-link">&larr; 返回列表</a>
     </article>
+<script>
+// 图片点击放大/缩小功能
+document.querySelectorAll('.post-content img').forEach(img => {
+    // 标记大图
+    if(img.naturalWidth > 800 || img.naturalHeight > 600) {
+        img.classList.add('large-image');
+    }
+
+    // 点击事件
+    img.addEventListener('click', function() {
+        this.classList.toggle('zoomed');
+    });
+});
+
+// 点击空白处关闭放大的图片
+document.addEventListener('click', function(e) {
+    if(e.target.classList.contains('zoomed')) {
+        e.target.classList.remove('zoomed');
+    }
+});
+</script>
 {% endblock %}
