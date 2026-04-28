@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
@@ -52,13 +53,20 @@ func UploadImage(c *gin.Context) {
 	mac := auth.New(qiniuAccessKey, qiniuSecretKey)
 	upToken := putPolicy.UploadToken(mac)
 
+	// Auto detect region
+	region, err := storage.GetRegion(qiniuAccessKey, qiniuBucket)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get region: " + err.Error()})
+		return
+	}
+
 	cfg := storage.Config{
-		Region: &storage.ZoneHuadong,
+		Region: region,
 	}
 	formUploader := storage.NewFormUploader(&cfg)
 	ret := storage.PutRet{}
 
-	err = formUploader.Put(c.Request.Context(), &ret, upToken, filename, f, file.Size, nil)
+	err = formUploader.Put(context.Background(), &ret, upToken, filename, f, file.Size, nil)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Upload failed: " + err.Error()})
 		return
