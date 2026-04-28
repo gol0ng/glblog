@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+dist/
+
+# Go
+*.exe
+blog-server
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.tar.gz
+
+# Environment
+.env
