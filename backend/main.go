@@ -10,6 +10,9 @@ import (
 func main() {
 	r := gin.Default()
 
+	// Trust nginx as proxy
+	r.SetTrustedProxies(nil)
+
 	// CORS middleware
 	r.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
