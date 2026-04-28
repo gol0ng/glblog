@@ -29,6 +29,7 @@ func main() {
 	{
 		api.GET("/posts", handlers.GetPosts)
 		api.GET("/posts/:slug", handlers.GetPost)
+		api.GET("/search", handlers.SearchPosts)
 
 		admin := api.Group("/admin")
 		{

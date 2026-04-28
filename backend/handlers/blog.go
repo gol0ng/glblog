@@ -30,6 +30,30 @@ func GetPost(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
+func SearchPosts(c *gin.Context) {
+	query := strings.ToLower(c.Query("q"))
+	if query == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing search query"})
+		return
+	}
+
+	posts, err := loadPosts()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to load posts"})
+		return
+	}
+
+	var results []models.Post
+	for _, post := range posts {
+		if strings.Contains(strings.ToLower(post.Title), query) ||
+			strings.Contains(strings.ToLower(post.Body), query) {
+			results = append(results, post)
+		}
+	}
+
+	c.JSON(http.StatusOK, results)
+}
+
 func loadPosts() ([]models.Post, error) {
 	postsDir := "posts"
 	entries, err := os.ReadDir(postsDir)
