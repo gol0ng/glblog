@@ -42,8 +42,12 @@ function Home() {
 
   return (
     <div className="container">
-      <header>
+      <header className="home-header">
         <h1><Link to="/">golong's blog</Link></h1>
+        <div className="header-social">
+          <a href="https://space.bilibili.com/204806779" target="_blank" rel="noopener noreferrer">B站</a>
+          <a href="https://www.zhihu.com/people/go-long-5" target="_blank" rel="noopener noreferrer">知乎</a>
+        </div>
       </header>
 
       <div className="search-section">
@@ -71,14 +75,6 @@ function Home() {
           Found {searchResults.length} result(s) for "{searchQuery}"
         </p>
       )}
-
-      <footer className="home-footer">
-        <div className="social-links">
-          <a href="https://space.bilibili.com/你的B站ID" target="_blank" rel="noopener noreferrer">B站</a>
-          <a href="https://www.douyin.com/你的抖音ID" target="_blank" rel="noopener noreferrer">抖音</a>
-          <a href="https://www.zhihu.com/people/你的知乎ID" target="_blank" rel="noopener noreferrer">知乎</a>
-        </div>
-      </footer>
 
       {loading ? (
         <p>Loading...</p>
