@@ -8,10 +8,9 @@ import (
 )
 
 func main() {
-	r := gin.Default()
-
-	// Trust nginx as proxy
-	r.SetTrustedProxies(nil)
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.New()
+	r.Use(gin.Recovery())
 
 	// CORS middleware
 	r.Use(func(c *gin.Context) {
