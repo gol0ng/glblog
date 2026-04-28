@@ -37,6 +37,7 @@ func main() {
 			admin.POST("/posts", handlers.CreatePost)
 			admin.PUT("/posts/:slug", handlers.UpdatePost)
 			admin.DELETE("/posts/:slug", handlers.DeletePost)
+			admin.POST("/upload", handlers.UploadImage)
 		}
 	}
 

@@ -14,6 +14,7 @@ function Dashboard() {
   const [date, setDate] = useState('')
   const [body, setBody] = useState('')
   const [message, setMessage] = useState('')
+  const [uploading, setUploading] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -97,6 +98,31 @@ function Dashboard() {
     navigate('/')
   }
 
+  const handleUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    setUploading(true)
+    const formData = new FormData()
+    formData.append('image', file)
+
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData
+      })
+      const data = await res.json()
+      if (data.url) {
+        setBody(body + `\n![${file.name}](${data.url})\n`)
+      } else {
+        setMessage('Upload failed')
+      }
+    } catch {
+      setMessage('Upload failed')
+    }
+    setUploading(false)
+  }
+
   if (loading) {
     return <div className="admin-container"><p>Loading...</p></div>
   }
@@ -135,6 +161,15 @@ function Dashboard() {
             </div>
           </div>
           <div className="editor-footer">
+            <label className="btn btn-secondary" style={{ cursor: 'pointer' }}>
+              {uploading ? 'Uploading...' : 'Upload Image'}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleUpload}
+                style={{ display: 'none' }}
+              />
+            </label>
             <button className="btn" onClick={handleSave}>Save</button>
             <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
           </div>
