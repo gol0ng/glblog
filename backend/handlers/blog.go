@@ -34,10 +34,13 @@ func loadPosts() ([]models.Post, error) {
 	postsDir := "posts"
 	entries, err := os.ReadDir(postsDir)
 	if err != nil {
+		if os.IsNotExist(err) {
+			return []models.Post{}, nil
+		}
 		return nil, err
 	}
 
-	var posts []models.Post
+	posts := []models.Post{}
 	for _, entry := range entries {
 		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".md") {
 			continue
