@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
+import rehypeSlug from 'rehype-slug'
 import 'katex/dist/katex.min.css'
 
 function Post() {
@@ -55,7 +56,7 @@ function Post() {
           <h2>{post.title}</h2>
           <p className="post-meta">{post.date}</p>
           <div className="post-body">
-            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{post.body}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeSlug]}>{post.body}</ReactMarkdown>
           </div>
         </article>
         {headings.length > 0 && (
