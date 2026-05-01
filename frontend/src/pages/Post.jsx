@@ -9,6 +9,7 @@ function Post() {
   const { slug } = useParams()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [headings, setHeadings] = useState([])
 
   useEffect(() => {
     fetch(`/api/posts/${slug}`)
@@ -20,12 +21,19 @@ function Post() {
       .catch(() => setLoading(false))
   }, [slug])
 
+  useEffect(() => {
+    if (post?.body) {
+      // Extract h2 headings
+      const matches = post.body.match(/^## (.+)$/gm)
+      if (matches) {
+        const unique = [...new Set(matches)]
+        setHeadings(unique)
+      }
+    }
+  }, [post])
+
   if (loading) {
-    return (
-      <div className="container">
-        <p>Loading...</p>
-      </div>
-    )
+    return <div className="container"><p>Loading...</p></div>
   }
 
   if (!post) {
@@ -38,17 +46,35 @@ function Post() {
   }
 
   return (
-    <div className="container">
+    <div className="post-container">
       <header>
         <h1><Link to="/">golong's blog</Link></h1>
       </header>
-      <article>
-        <h2>{post.title}</h2>
-        <p className="post-meta">{post.date}</p>
-        <div className="post-body">
-          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{post.body}</ReactMarkdown>
-        </div>
-      </article>
+      <div className="post-layout">
+        <article className="post-content">
+          <h2>{post.title}</h2>
+          <p className="post-meta">{post.date}</p>
+          <div className="post-body">
+            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{post.body}</ReactMarkdown>
+          </div>
+        </article>
+        {headings.length > 0 && (
+          <aside className="post-toc">
+            <h3>Table of Contents</h3>
+            <ul>
+              {headings.map((heading, i) => {
+                const text = heading.replace(/^## /, '')
+                const id = text.toLowerCase().replace(/\s+/g, '-')
+                return (
+                  <li key={i}>
+                    <a href={`#${id}`}>{text}</a>
+                  </li>
+                )
+              })}
+            </ul>
+          </aside>
+        )}
+      </div>
     </div>
   )
 }

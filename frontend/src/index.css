@@ -548,3 +548,77 @@ nav a:hover {
 .header-social a:hover {
   text-decoration: underline;
 }
+
+/* Post page layout */
+.post-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.post-container header {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #000;
+}
+
+.post-container header h1 a {
+  text-decoration: none;
+  color: #000;
+}
+
+.post-layout {
+  display: flex;
+  gap: 40px;
+}
+
+.post-content {
+  flex: 1;
+  max-width: 800px;
+}
+
+.post-toc {
+  width: 250px;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+
+.post-toc h3 {
+  font-size: 1em;
+  font-weight: normal;
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.post-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-toc li {
+  margin-bottom: 10px;
+}
+
+.post-toc a {
+  text-decoration: none;
+  color: #000;
+  font-size: 0.9em;
+}
+
+.post-toc a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .post-layout {
+    flex-direction: column-reverse;
+  }
+  
+  .post-toc {
+    width: 100%;
+    position: static;
+    margin-bottom: 30px;
+  }
+}
